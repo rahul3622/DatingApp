@@ -10,7 +10,7 @@ namespace API.Extensions
         public static int CalulateAge(this DateTime dob)
         {
             var today = DateTime.Today;
-            var age = dob.Year - today.Year;
+            var age = today.Year - dob.Year;
 
             if (dob.Date > today.AddYears(-age)) --age;
             return age;
