@@ -1,6 +1,6 @@
 
 export interface Photo {
     id: number;
-    isMain: string;
+    isMain: boolean;
     url: string;
 }
