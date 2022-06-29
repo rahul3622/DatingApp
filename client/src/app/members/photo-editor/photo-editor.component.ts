@@ -14,7 +14,6 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./photo-editor.component.css']
 })
 export class PhotoEditorComponent implements OnInit {
-  debugger
   @Input() member: Member;
   uploader: FileUploader;
   hasBaseDropzoneOver = false;
@@ -22,7 +21,6 @@ export class PhotoEditorComponent implements OnInit {
   user: User;
 
   constructor(private _accountService: AccountService, private _membersService: MembersService) {
-    debugger
     this._accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -51,8 +49,13 @@ export class PhotoEditorComponent implements OnInit {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
-        const photo = JSON.parse(response);
+        const photo: Photo = JSON.parse(response);
         this.member.photos.push(photo);
+        if(photo.isMain){
+          this.user.photoUrl = photo.url;
+          this.member.photoUrl = photo.url;
+          this._accountService.setCurrentUser(this.user);
+        }
       }
     }
   }
